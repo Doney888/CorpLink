@@ -1,0 +1,22 @@
+openapi: "3.0.0"
+info:
+  title: "CorpLink Identity API"
+  version: "1.0.0"
+paths:
+  /api/auth/login:
+    post:
+      summary: "Авторизация пользователя"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: "Успешный логин"
