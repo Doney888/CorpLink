@@ -24,9 +24,9 @@ else:
     st.sidebar.error("🔴 Redis NoSQL: Отключен")
 
 tab1, tab2, tab3 = st.tabs([
-    "💬 Чат и Процедуры (ЛР 3 + ЛР 5)", 
-    "📝 Триггеры и Аналитика (ЛР 4 + ЛР 5)", 
-    "⚡ Телеметрия NoSQL (Redis) (ЛР 6)"
+    "Чат и Процедуры (ЛР 3 + ЛР 5)", 
+    "Триггеры и Аналитика (ЛР 4 + ЛР 5)", 
+    "Телеметрия NoSQL (Redis) (ЛР 6)"
 ])
 
 # =====================================================================
@@ -45,7 +45,7 @@ with tab1:
     col1, col2 = st.columns(2)
     
     with col1:
-        st.subheader("⚙️ Создание чата через ПРОЦЕДУРУ")
+        st.subheader("Создание чата через ПРОЦЕДУРУ")
         chat_title = st.text_input("Название группового чата", value="Новый отдел разработки")
         selected_creator = st.selectbox("Создатель чата (Владелец)", users, format_func=lambda x: x[1], key="creator_sel")
         
@@ -61,7 +61,7 @@ with tab1:
                     st.error(f"Ошибка выполнения процедуры: {e}")
 
     with col2:
-        st.subheader("✉️ Отправка сообщения (INSERT)")
+        st.subheader("Отправка сообщения (INSERT)")
         selected_sender = st.selectbox("Отправитель сообщения", users, format_func=lambda x: x[1], key="sender_sel")
         selected_chat = st.selectbox("Выбрать чат для отправки", chats, format_func=lambda x: x[1], key="chat_sel")
         msg_text = st.text_area("Текст сообщения", value="Коллеги, у нас новое обсуждение.")
@@ -90,7 +90,7 @@ with tab2:
     conn = get_connection()
     cur = conn.cursor()
     
-    st.subheader("✏️ Изменение сообщения и проверка работы ТРИГГЕРА")
+    st.subheader("Изменение сообщения и проверка работы ТРИГГЕРА")
     
     cur.execute("SELECT id, content FROM messages WHERE is_deleted = false ORDER BY sent_at DESC LIMIT 5")
     recent_msgs = cur.fetchall()
@@ -115,14 +115,14 @@ with tab2:
     col_v1, col_v2 = st.columns(2)
     
     with col_v1:
-        st.markdown("### 📋 Таблица аудита message_audit_logs (Заполняется триггером СУБД)")
+        st.markdown("###Таблица аудита message_audit_logs (Заполняется триггером СУБД)")
         cur.execute("SELECT message_id, old_content, changed_at FROM message_audit_logs ORDER BY changed_at DESC")
         logs = cur.fetchall()
         df_logs = pd.DataFrame(logs, columns=["ID Сообщения", "Старый текст", "Время изменения"])
         st.dataframe(df_logs, use_container_width=True)
 
     with col_v2:
-        st.markdown("### 👁️ Выборка из VIEW (Детали участников)")
+        st.markdown("###Выборка из VIEW (Детали участников)")
         cur.execute("SELECT username, chat_title, role_in_chat, department_name FROM v_chat_members_details")
         view_data = cur.fetchall()
         df_view = pd.DataFrame(view_data, columns=["Имя", "Чат", "Роль", "Отдел"])
@@ -135,7 +135,7 @@ with tab2:
 # ВКЛАДКА 3: Работа со статусами в NoSQL (Redis)
 # =====================================================================
 with tab3:
-    st.subheader("📡 Мониторинг статусов сотрудников в NoSQL СУБД Redis (Key-Value)")
+    st.subheader("Мониторинг статусов сотрудников в NoSQL СУБД Redis (Key-Value)")
     
     if redis_connected:
         conn = get_connection()
