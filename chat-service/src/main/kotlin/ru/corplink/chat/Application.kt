@@ -33,6 +33,8 @@ fun Application.chatModule() {
     }
 
     routing {
+	swaggerUI(path = "swagger", swaggerFile = "openapi.yaml")
+
         get("/api/health") {
             call.respond(mapOf("status" to "ok", "service" to "chat-service"))
         }

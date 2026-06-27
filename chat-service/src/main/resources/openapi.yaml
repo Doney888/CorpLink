@@ -1,0 +1,67 @@
+openapi: "3.0.0"
+info:
+  title: "CorpLink Chat API"
+  version: "1.0.0"
+  description: "Микросервис управления чатами, сообщениями и вложениями"
+paths:
+  /api/chats:
+    post:
+      summary: "Создать групповой чат (вызывает процедуру СУБД)"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                creatorId:
+                  type: string
+                  format: uuid
+                title:
+                  type: string
+                type:
+                  type: integer
+      responses:
+        "201":
+          description: "Чат успешно создан"
+
+  /api/chats/{chatId}/messages:
+    post:
+      summary: "Отправить сообщение (с синхронной верификацией)"
+      parameters:
+        - name: "chatId"
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                senderId:
+                  type: string
+                  format: uuid
+                content:
+                  type: string
+      responses:
+        "201":
+          description: "Сообщение успешно записано в БД"
+        "400":
+          description: "Сотрудник не найден"
+
+    get:
+      summary: "Получить историю сообщений (выборка из индекса)"
+      parameters:
+        - name: "chatId"
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: "Список сообщений"

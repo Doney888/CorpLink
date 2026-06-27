@@ -2,10 +2,33 @@ openapi: "3.0.0"
 info:
   title: "CorpLink Identity API"
   version: "1.0.0"
+  description: "Микросервис авторизации и управления сотрудниками компании"
 paths:
+  /api/auth/register:
+    post:
+      summary: "Регистрация нового сотрудника"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "201":
+          description: "Сотрудник успешно зарегистрирован"
+        "400":
+          description: "Неверный формат данных"
+
   /api/auth/login:
     post:
-      summary: "Авторизация пользователя"
+      summary: "Аутентификация сотрудника (Вход)"
       requestBody:
         required: true
         content:
@@ -19,4 +42,22 @@ paths:
                   type: string
       responses:
         "200":
-          description: "Успешный логин"
+          description: "Успешный вход (выдан JWT-токен)"
+        "401":
+          description: "Неверный email или пароль"
+
+  /api/users/{id}/verify:
+    get:
+      summary: "Синхронная верификация сотрудника для Chat Service"
+      parameters:
+        - name: "id"
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: "Сотрудник существует"
+        "404":
+          description: "Сотрудник не найден"
