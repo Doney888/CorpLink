@@ -10,7 +10,7 @@ object DatabaseFactory {
             jdbcUrl = "jdbc:postgresql://localhost:5432/corplink_db"
             driverClassName = "org.postgresql.Driver"
             username = "postgres"
-            password = "ShvedGen89"
+            password = "SECRET!!!"
             maximumPoolSize = 10
         }
         val dataSource = HikariDataSource(config)
